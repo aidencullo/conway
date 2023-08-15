@@ -1,31 +1,30 @@
 import pprint
+import numpy as np
+np.__version__
 pp = pprint.PrettyPrinter(indent=4)
-
-size = 5
-
-def log(x):
-    pp.pprint(x)
 
 def row():
     return [0 for x in range(size)]
 
-def printBoard():
-    for x in board:
-        print(*x)
+def evolve(board):
+    for (x, y), element in np.ndenumerate(np.array(board.grid)):
+        print(x, y, element)
+        evolve_cell(board.grid, x, y)
 
-def evolve(state):
+def evolve_cell(grid, x, y):
     pass
-
+        
 class Board:
 
-    def __init__(self):
-        self.width = 0
-        self.height = 0
+    def __init__(self, size):
         self.grid = [row() for x in range(size)]
         self.grid[2][2] = 1
 
-    def __str__(self):
-        return "under construction"
-
-board = Board()
-print(str(board))
+    def print(self):
+        pp.pprint(self.grid)
+        print()
+        
+board = Board(5)
+board.print()
+evolve(board)
+board.print()
