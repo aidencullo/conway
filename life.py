@@ -3,22 +3,31 @@ import numpy as np
 np.__version__
 pp = pprint.PrettyPrinter(indent=4)
 
-def row():
+def row(size):
     return [0 for x in range(size)]
 
 def evolve(board):
-    for (x, y), element in np.ndenumerate(np.array(board.grid)):
-        print(x, y, element)
+    for (x, y), element in np.ndenumerate(np.array(board.grid.value)):
         evolve_cell(board.grid, x, y)
 
 def evolve_cell(grid, x, y):
-    pass
+    print(grid.get(x + 1, y))
+    print(grid.get(x, y))
+    print(grid.get(x - 1, y))
+          
+class Grid:    
+
+    def __init__(self, size):
+        self.value = [row(size) for x in range(size)]
+        self.value[2][2] = 1
+
+    def get(self, x, y):
+        return x in range(0, len(self.value))
         
 class Board:
 
     def __init__(self, size):
-        self.grid = [row() for x in range(size)]
-        self.grid[2][2] = 1
+        self.grid = Grid(size)
 
     def print(self):
         pp.pprint(self.grid)
