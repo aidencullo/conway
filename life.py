@@ -5,12 +5,15 @@ pp = pprint.PrettyPrinter(indent=4)
 
 def row(size):
     return [0 for x in range(size)]
-          
+
+def random_grid(size):
+    return [row(size) for x in range(size)]
+
+
 class Board:
 
     def __init__(self, size):
-        self.grid = [row(size) for x in range(size)]
-        self.grid[0][0] = 1
+        self.grid = random_grid(size)
 
     def print(self):
         pp.pprint(self.grid)
@@ -29,16 +32,23 @@ class Board:
 
     def count_neighbors(self, x,y):
         count = 0
-        self.get
+        count += self.get(x-1,y-1)
+        count += self.get(x,y-1)
+        count += self.get(x+1,y-1)
+        count += self.get(x+1,y)
+        count += self.get(x+1,y+1)
+        count += self.get(x,y+1)
+        count += self.get(x-1,y+1)
+        count += self.get(x-1,y)
         return count
 
     def evolve_cell(self, x, y):
+        count = self.count_neighbors(x, y)
         if self.get(x, y):
             print('active cell')
-            count = self.count_neighbors(x, y)
-            print(count)
         else:
             print('dead cell')
+        print(count)
         
 board = Board(5)
 board.evolve()
