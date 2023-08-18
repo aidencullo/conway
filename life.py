@@ -1,55 +1,66 @@
-import pprint
+import random
+import time
 import numpy as np
-np.__version__
-pp = pprint.PrettyPrinter(indent=4)
+
+size = 4
 
 def row(size):
-    return [0 for x in range(size)]
+    return [random.randint(0, 1) for x in range(size)]
+
+def repeating_row(size):
+    return [1 if y == size // 2 else 0 for y in range(size)]
 
 def random_grid(size):
     return [row(size) for x in range(size)]
 
+def repeating_grid(size):
+    return [repeating_row(size) for x in range(size)]
 
-class Board:
+grid = repeating_grid(size)
+# grid = random_grid(size)
 
-    def __init__(self, size):
-        self.grid = random_grid(size)
+def get(x, y):
+    if x in range(0, len(grid)) and y in range(0, len(grid[0])):
+        return grid[x][y]
+    else:
+        return 0
 
-    def print(self):
-        pp.pprint(self.grid)
-        print()
-
-    def get(self, x, y):
-        if x in range(0, len(self.grid)) and y in range(0,
-        len(self.grid[0])):
-            return self.grid[x][y]
-        else:
-            return 0
-
-    def evolve(self):
-        for (x, y), lement in np.ndenumerate(np.array(self.grid)):
-            self.evolve_cell(x, y)
-
-    def count_neighbors(self, x,y):
-        count = 0
-        count += self.get(x-1,y-1)
-        count += self.get(x,y-1)
-        count += self.get(x+1,y-1)
-        count += self.get(x+1,y)
-        count += self.get(x+1,y+1)
-        count += self.get(x,y+1)
-        count += self.get(x-1,y+1)
-        count += self.get(x-1,y)
-        return count
-
-    def evolve_cell(self, x, y):
-        count = self.count_neighbors(x, y)
-        if self.get(x, y):
-            print('active cell')
-        else:
-            print('dead cell')
-        print(count)
+def evolve():
+    new_grid = [*grid]
+    for (x, y), element in np.ndenumerate(np.array(grid)):
+        new_cell = evolve_cell(x, y)
+        new_grid[x][y] = new_cell
+    return new_grid
         
-board = Board(5)
-board.evolve()
-# board.evolve().print()
+def count_neighbors( x,y):
+    count = 0
+    count += get(x-1,y-1)
+    count += get(x,y-1)
+    count += get(x+1,y-1)
+    count += get(x+1,y)
+    count += get(x+1,y+1)
+    count += get(x,y+1)
+    count += get(x-1,y+1)
+    count += get(x-1,y)
+    return count
+
+def evolve_cell( x, y):
+    count = count_neighbors(x, y)
+    if get(x, y):
+        if count not in range(2, 4):
+            return 0
+    else:
+        if count == 3:
+            return 1
+    return grid[x][y]
+
+def print_grid():
+    print(*grid, sep='\n')
+    print()
+
+i = 0
+while(i < 4):
+    i += 1
+    print_grid()
+    grid = evolve()
+    time.sleep(1)
