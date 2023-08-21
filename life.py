@@ -1,5 +1,10 @@
+#### Libraries
+
+# standard
 import random
 import time
+
+# third party
 import numpy as np
 
 size = 4
@@ -21,15 +26,17 @@ grid = repeating_grid(size)
 
 def get(x, y):
     if x in range(0, len(grid)) and y in range(0, len(grid[0])):
+        # print('in range')
+        # print('x:{0}, y:{1}'.format(x,y))
         return grid[x][y]
     else:
         return 0
 
 def evolve():
     new_grid = [*grid]
-    for (x, y), element in np.ndenumerate(np.array(grid)):
-        new_cell = evolve_cell(x, y)
-        new_grid[x][y] = new_cell
+    for (y, x), element in np.ndenumerate(np.array(grid)):
+        new_grid[x][y] = evolve_cell(x, y)
+        print(x,y, element)
     return new_grid
         
 def count_neighbors( x,y):
@@ -46,12 +53,14 @@ def count_neighbors( x,y):
 
 def evolve_cell( x, y):
     count = count_neighbors(x, y)
+    # print('count: {0} get(x,y): {1}, x:{2}, y:{3}'.format(count, get(x,y),x,y))
     if get(x, y):
         if count not in range(2, 4):
             return 0
     else:
         if count == 3:
             return 1
+    # print(grid[x][y])
     return grid[x][y]
 
 def print_grid():
@@ -59,7 +68,7 @@ def print_grid():
     print()
 
 i = 0
-while(i < 4):
+while(i < 1):
     i += 1
     print_grid()
     grid = evolve()
