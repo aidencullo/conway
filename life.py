@@ -8,7 +8,7 @@ import time
 import numpy as np
 
 size = 10
-steps = 3
+steps = 10
 enabled = True
 
 def row(size, num):
@@ -38,6 +38,28 @@ def test_grid_1(size):
     grid[4][7] = 1
     return grid.transpose()
 
+def beehive(size):
+    grid = zero_grid(size)
+    grid[5][5] = 1
+    grid[5][6] = 1
+    grid[6][7] = 1
+    grid[7][5] = 1
+    grid[7][6] = 1
+    grid[6][4] = 1
+    return grid
+
+def beacon(size):
+    grid = zero_grid(size)
+    grid[5][5] = 1
+    grid[5][6] = 1
+    grid[6][5] = 1
+
+    grid[7][8] = 1
+    grid[8][7] = 1
+    grid[8][8] = 1
+
+    return grid
+
 def get(x, y):
     if x in range(0, len(grid)) and y in range(0, len(grid[0])):
         return grid[x][y]
@@ -52,7 +74,7 @@ def evolve():
     for (y, x), element in np.ndenumerate(np.array(grid)):
         new_grid[x][y] = evolve_cell(x, y)
     return new_grid
-        
+
 def count_neighbors( x,y):
     count = 0
     count += get(x-1,y-1)
@@ -76,17 +98,23 @@ def evolve_cell( x, y):
     return grid[x][y]
 
 def print_grid():
-    print(*grid, sep='\n')
-    print()
+    for row in grid:
+        line = ''
+        for item in row:
+            if item == 0:
+                line += '-' 
+            else:
+                line += 'x' 
+        print(line)
 
-# if main == main
-# failed
-grid = test_grid_1(size)
-    
-if enabled:
-    i = 0
-    while(i < steps):
-        i += 1
-        print_grid()
-        grid = evolve()
-        time.sleep(1)
+grid = beacon(size)
+
+if __name__=="__main__":
+    print('hello world')
+    if enabled:
+        i = 0
+        while(i < steps):
+            i += 1
+            print_grid()
+            grid = evolve()
+            time.sleep(1)	
