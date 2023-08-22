@@ -8,7 +8,7 @@ import time
 import numpy as np
 
 size = 10
-steps = 2
+steps = 3
 enabled = True
 
 def row(size, num):
@@ -45,7 +45,7 @@ def get(x, y):
         return 0
 
 def copy_grid(grid):
-     return [row[:] for row in grid]
+     return grid.copy()
 
 def evolve():
     new_grid = copy_grid(grid)
