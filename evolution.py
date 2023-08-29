@@ -1,19 +1,10 @@
 ### Libraries
 
 # standard
-import time
 import itertools
 
 # third party
 import numpy as np
-
-# local modules
-from grids import seed_grid
-from prints import *
-
-# globals
-EVOLUTION_STEPS = 3
-GRID_LENGTH = 10
 
 def get(grid, x, y):
     try:
@@ -38,10 +29,3 @@ def evolve_cell(grid, x, y):
     if not get(grid, x, y) and count == 3:
         return 1
     return grid[x][y]
-
-if __name__ == "__main__":
-    grid = seed_grid(GRID_LENGTH)
-    for x in range(EVOLUTION_STEPS):
-                 print_grid(grid)
-                 grid = evolve(grid)
-                 time.sleep(1)	
