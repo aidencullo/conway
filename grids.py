@@ -1,9 +1,6 @@
 # third party
 import numpy as np
 
-size = 10
-steps = 10
-
 def row(size, num):
     return [num for x in range(size)]
 
@@ -53,4 +50,5 @@ def beacon(size):
 
     return grid
 
-grid = beacon(size)
+def seed_grid(size):
+    return beacon(size)
