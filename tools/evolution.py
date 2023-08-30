@@ -8,7 +8,7 @@ import time
 import numpy as np
 
 # local
-from prints import print_grid
+from .prints import print_grid
 
 def get(grid, x, y):
     try:
