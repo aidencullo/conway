@@ -2,9 +2,13 @@
 
 # standard
 import itertools
+import time
 
 # third party
 import numpy as np
+
+# local
+from prints import print_grid
 
 def get(grid, x, y):
     try:
@@ -12,6 +16,16 @@ def get(grid, x, y):
     except IndexError:
         return 0
 
+
+def ui_wrap(func):
+    def wrapped(grid):
+        print_grid(grid)
+        grid = func(grid)
+        time.sleep(1)
+        return grid
+    return wrapped    
+    
+@ui_wrap
 def evolve(grid):
     new_grid = grid.copy()
     for (y, x), value in np.ndenumerate(grid):
