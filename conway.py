@@ -1,12 +1,13 @@
 # local modules
-from tools.grids import seed_grid
-from tools.evolution import evolve
-import tools.constants as const
+from tools.sample import seed_grid
+import tools.constant as const
+from tools.grid import Grid
 
 def main() -> None:
-    grid = seed_grid(const.GRID_LENGTH)
+    grid = seed_grid(const.SIDE_LENGTH)
     for _ in range(const.EVOLUTION_STEPS):
-        grid = evolve(grid)
+        grid = grid.evolve()
+        grid.print()
 
 if __name__ == "__main__":
     main()
