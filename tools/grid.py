@@ -9,11 +9,16 @@ import numpy as np
 import tools.constant as const
 
 class Grid:
-    """A simple, square grid"""
+    """
+    A simple, square grid
+    TODO: implement operator dec
+    """
 
     def __init__(self, grid = None):
         if grid is None:
             grid = np.zeros((const.SIDE_LENGTH, const.SIDE_LENGTH))
+        else:
+            grid = np.ones((const.SIDE_LENGTH, const.SIDE_LENGTH))
         self._grid = grid
 
     def __setitem__(self, item, value):
@@ -24,7 +29,10 @@ class Grid:
             return self._grid[indices]
         except IndexError:
             return 0
-        
+
+    def __eq__(self, other):
+        return np.array_equal(self._grid, other._grid)
+
     def evolve(self):
         new_grid = Grid()
         for (y, x), value in np.ndenumerate(self._grid):
@@ -47,11 +55,7 @@ class Grid:
         return Grid(self._grid.transpose())
     
     def print(self):
-        print('__' * (len(self._grid[0]) + 2))
         for y in self._grid:
-            print('| ', end='')
             for x in y:
                 print('x ' if x else '_ ', end='')
-            print(' |', end='')
             print()
-        print('__' * (len(self._grid[0]) + 2))
