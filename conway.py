@@ -1,13 +1,11 @@
-# local modules
-from tools.sample import seed_grid
 import tools.constant as const
-from tools.grid import Grid
+from tools.game import Game, generate_game
 
 def main() -> None:
-    grid = seed_grid(const.SIDE_LENGTH)
+    game = generate_game(0)
     for _ in range(const.EVOLUTION_STEPS):
-        grid = grid.evolve()
-        grid.print()
+        game = game.evolve()
+        game.print()
 
 if __name__ == "__main__":
     main()
