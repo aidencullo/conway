@@ -7,12 +7,21 @@ import tools.constant as const
 
 def glider():
     game = Game()
-    game[5, 5] = 1
-    game[6, 6] = 1
-    game[6, 7] = 1
-    game[5, 7] = 1
-    game[4, 7] = 1
-    return game.transpose()
+    game[0, 1] = 1
+    game[1, 2] = 1
+    game[2, 0] = 1
+    game[2, 1] = 1
+    game[2, 2] = 1
+    return game
+
+def glider_end():
+    game = Game()
+    game[1, 2] = 1
+    game[2, 3] = 1
+    game[3, 1] = 1
+    game[3, 2] = 1
+    game[3, 3] = 1
+    return game
 
 def beehive():
     game = Game()
@@ -34,17 +43,37 @@ def beacon():
     game[8, 8] = 1
     return game
 
-def generate_game(option):
-    if option == 1:
-        return glider()
-    if option == 2:
-        return beehive()
-    return beacon()
-
 class Game:
     """
     A simple, square grid
-    TODO: implement operator dec
+
+    >>> Game() == Game()
+    True
+    >>> Game() == beehive()
+    False
+    >>> g = beehive()
+    >>> g.evolve() ==  g
+    True
+    >>> beehive().evolve() == beehive()
+    True
+    >>> beehive().evolve(2) == beehive()
+    True
+    >>> glider() != glider().evolve()
+    True
+    >>> beacon() != beacon().evolve()
+    True
+    >>> beacon() == beacon().evolve(2)
+    True
+    >>> glider().evolve(4) == glider_end()
+    True
+    >>> glider().evolve(5) == glider_end()
+    False
+
+    todo
+    
+    interactive
+    action to run tests
+    
     """
 
     def __init__(self, grid = None):
@@ -75,10 +104,13 @@ class Game:
         print("setter method")   
         self._grid = other
 
-    def evolve(self):
-        new_grid = Game()
-        for (y, x), value in np.ndenumerate(self._grid):
-            new_grid[x, y] = self.evolve_cell(x, y)
+    def evolve(self, count = 1):
+        for x in range(count):
+            new_grid = Game()
+            for (y, x), value in np.ndenumerate(self._grid):
+                new_grid[x, y] = self.evolve_cell(x, y)
+        if count != 1:
+            return new_grid.evolve(count - 1)
         return new_grid
 
     def count_neighbors(self, x, y):
@@ -101,3 +133,4 @@ class Game:
             for x in y:
                 print('x ' if x else '_ ', end='')
             print()
+        print()
